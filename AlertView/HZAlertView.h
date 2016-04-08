@@ -83,6 +83,25 @@ typedef void(^HZBasicActionBlock)();
        otherButtonTitles:(NSString *)otherButtonTitle;
 
 
+/******************************************************************************
+ 函数名称 : 模仿系统AlertView界面
+ 函数描述 : 系统alertView
+ 输入参数 : (NSString *)title                                       标题
+ 输入参数 : (NSString *)message                             文本信息
+ 输入参数 : (id<HZAlertViewDelegate>)delegate    代理
+ 输入参数 : (NSString *)cancelButtonTitle                取消文本
+ 输入参数 : (NSString *)otherButtonTitle                  其他文本
+ 输出参数 : N/A
+ 返回参数 :
+ 备注信息 :
+ ******************************************************************************/
+-(id)initWithSystemTitle:(NSString *)title
+                        message:(NSString *)message
+                         delegate:(id<HZAlertViewDelegate>)delegate
+          cancelButtonTitle:(NSString *)cancelButtonTitle
+          otherButtonTitles:(NSString *)otherButtonTitle;
+
+
 
 
 

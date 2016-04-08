@@ -13,7 +13,13 @@
 /****内容相关*****/
 @property (nonatomic, strong) UITextView * bodyTextView;
 @property (nonatomic, strong) UILabel * bodyTextLabel;
+/**
+ *  抬头
+ */
 @property (nonatomic, strong) UILabel * titleLabel;
+/**
+ *  自定义view
+ */
 @property (nonatomic, strong) UIView * customView;
 
 
@@ -86,7 +92,6 @@ static UIWindow * gMaskWindow = nil;
     if (!_bodyTextLabel) {
         _bodyTextLabel = [[UILabel alloc] init];
         _bodyTextLabel.numberOfLines = 0;
-        //        _bodyTextLabel.lineBreakMode = UILineBreakModeCharacterWrap;
         //        _bodyTextLabel.textAlignment = _contentAlignment;
         _bodyTextLabel.backgroundColor = [UIColor clearColor];
     }
@@ -252,15 +257,11 @@ static UIWindow * gMaskWindow = nil;
         [HZAlertView dismissMaskWindow];
     }
     
-    //if (_style != BBAlertViewStyleCustomView) {
     if ([self.delegate conformsToProtocol:@protocol(HZAlertViewDelegate)]) {
         if ([self.delegate respondsToSelector:@selector(alertView:didDismissWithButtonIndex:)]) {
             [self.delegate alertView:self didDismissWithButtonIndex:self.clickedButtonIndex];
         }
     }
-    //}
-    
-    //[self removeObservers];
 }
 + (void)removeAlertViewFormMaskWindow:(HZAlertView *)alertView{
     if (!gMaskWindow || ![gMaskWindow.subviews containsObject:alertView]) {
@@ -378,15 +379,10 @@ static UIWindow * gMaskWindow = nil;
         titleHeight = 42.0f;
     }
     
-    //content view
-    CGFloat boxWidth = ALERTWIDTH;   //弹出框宽度
-    // 文字内容区域宽度
-    CGFloat contentWidth = 220;
     // 标题frame
-
-    CGRect titleBgFrame = CGRectMake(0, 0, boxWidth, titleHeight);
+    CGRect titleBgFrame = CGRectMake(0, 0, BASICALERTWIDTH, titleHeight);
     // 计算内容区域content的frame
-    CGSize maxSize = CGSizeMake(contentWidth, MAXFLOAT);
+    CGSize maxSize = CGSizeMake(BASICCONTENTWIDTH, MAXFLOAT);
     CGSize messageSize = [HZAlertView sizeWithText:message font:CONTENTFONT maxSize:maxSize];
     
     CGFloat contentHeight = messageSize.height > 20 ? messageSize.height : 20;
@@ -403,8 +399,7 @@ static UIWindow * gMaskWindow = nil;
     
     // 内容区域frame
     CGFloat paddingBottom =  titleHeight > 0 ? 0 : 15;
-    CGRect contentFrame = CGRectMake((boxWidth-contentWidth)/2, CGRectGetMaxY(titleBgFrame)+paddingBottom, contentWidth, contentHeight);
-    
+    CGRect contentFrame = CGRectMake((BASICALERTWIDTH-BASICCONTENTWIDTH) * 0.5, CGRectGetMaxY(titleBgFrame)+paddingBottom, BASICCONTENTWIDTH, contentHeight);
     //button 1
     CGFloat btnTop = CGRectGetMaxY(contentFrame) + 9;
     CGFloat btnHeight = 35;
@@ -453,7 +448,7 @@ static UIWindow * gMaskWindow = nil;
     CGFloat boxHeight = titleBgFrame.size.height+15+contentHeight+10+btnHeight+10;
     
     self.contentView.center = CGPointMake(self.centerX, self.centerY);
-    self.contentView.bounds = CGRectMake(0, 0, boxWidth, boxHeight);
+    self.contentView.bounds = CGRectMake(0, 0, BASICALERTWIDTH, boxHeight);
     self.contentView.clipsToBounds = YES;
     self.contentView.layer.cornerRadius = 1.0;
     self.contentView.backgroundColor = [UIColor whiteColor];
@@ -474,8 +469,6 @@ static UIWindow * gMaskWindow = nil;
     self.titleLabel.frame = titleBgFrame;
     
     self.titleLabel.textColor = [UIColor darkTextColor];
-//    self.titleLabel.shadowOffset = CGSizeMake(1, 1);
-//    self.titleLabel.shadowColor = YSColor(246, 242, 224);
     self.titleLabel.font = TITLEFONT;
     [self.contentView addSubview:self.titleLabel];
     
@@ -486,7 +479,6 @@ static UIWindow * gMaskWindow = nil;
         self.bodyTextView.frame = contentFrame;
         self.bodyTextView.font = CONTENTFONT;
         self.bodyTextView.textColor = YSColor(0, 0, 0);
-        
         [self.contentView addSubview:self.bodyTextView];
     }else{
         self.bodyTextLabel.text = message;
@@ -499,17 +491,6 @@ static UIWindow * gMaskWindow = nil;
 }
 
 
-
--(id)initWithTitle:(NSString *)title
-        customView:(UIView *)customView
-          delegate:(id <HZAlertViewDelegate>)delegate
- cancelButtonTitle:(NSString *)cancelButtonTitle
- otherButtonTitles:(NSString *)otherButtonTitle {
-    
-    return   [self initWithTitle:title message:nil delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitle];
-    
-    
-}
 
 
 -(id)initWithTitle:(NSString *)title
@@ -525,7 +506,7 @@ static UIWindow * gMaskWindow = nil;
         [self initData];
         _delegate = delegate;
         
-        CGFloat titleHeight = 0.0f;
+        CGFloat titleHeight = 10.0f;
         // 标题高度
         if (title)
         {
@@ -533,10 +514,10 @@ static UIWindow * gMaskWindow = nil;
         }
         
         CGFloat bodyHeight = 0.0f;
+        CGFloat contentWidth = 250;
         // 文本信息
         if (message)
         {
-            CGFloat contentWidth = 220;
             CGSize BodySize = CGSizeMake(contentWidth, MAXFLOAT);
             bodyHeight = [HZAlertView sizeWithText:message font:CONTENTFONT maxSize:BodySize].height + 20;
         }
@@ -546,9 +527,7 @@ static UIWindow * gMaskWindow = nil;
             self.customView = customView;
             customViewHeight = customView.height;
         }
-        CGFloat buttonPartHeight = 50.0f;
-        
-        
+
         BOOL isNeedUserTextView = bodyHeight > 170;
         bodyHeight = isNeedUserTextView?170:bodyHeight;
         // alertView高度 = 标题高度+文本高度  +   自定义view高度 + 按钮高度
@@ -568,9 +547,9 @@ static UIWindow * gMaskWindow = nil;
         
         // 标题背景图片
         UIImageView *titleBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 280, titleHeight)];
-        UIImage *image1 = [UIImage imageNamed:@"MessageFilterConfirmBtn"];
-        UIImage *streImage1 = [image1 stretchableImageWithLeftCapWidth:image1.size.width/2 topCapHeight:0];
-        titleBgImageView.image = streImage1;
+        //UIImage *image1 = [UIImage imageNamed:@"MessageFilterConfirmBtn"];
+        //UIImage *streImage1 = [image1 stretchableImageWithLeftCapWidth:image1.size.width/2 topCapHeight:0];
+        //titleBgImageView.image = streImage1;
         [alertMainView addSubview:titleBgImageView];
         
         
@@ -592,12 +571,12 @@ static UIWindow * gMaskWindow = nil;
         //bodyLabel
         if (isNeedUserTextView) {
             self.bodyTextView.text = message;
-            self.bodyTextView.frame = CGRectMake(5, titleHeight, ALERTWIDTH, bodyHeight);
+            self.bodyTextView.frame = CGRectMake((280 - contentWidth)  * 0.5, titleHeight, contentWidth, bodyHeight);
             self.bodyTextView.font = [UIFont systemFontOfSize:16.0f];
             [alertMainView addSubview:self.bodyTextView];
         }else{
             self.bodyTextLabel.text = message;
-            self.bodyTextLabel.frame = CGRectMake(5, titleHeight, ALERTWIDTH, bodyHeight);
+            self.bodyTextLabel.frame = CGRectMake((280 - contentWidth)  * 0.5, titleHeight, contentWidth, bodyHeight);
             self.bodyTextLabel.font = [UIFont systemFontOfSize:16.0f];
             [alertMainView addSubview:self.bodyTextLabel];
         }
@@ -653,84 +632,135 @@ static UIWindow * gMaskWindow = nil;
             [self.otherButton setTag:0];
             [alertMainView addSubview:self.otherButton];
         }
-        
-        
     }
     return self;
 }
 
+-(id)initWithSystemTitle:(NSString *)title
+                        message:(NSString *)message
+                         delegate:(id<HZAlertViewDelegate>)delegate
+          cancelButtonTitle:(NSString *)cancelButtonTitle
+          otherButtonTitles:(NSString *)otherButtonTitle {
+    self = [super initWithFrame:[UIScreen mainScreen].bounds];
+    if (self) {
+        [self initData];
+        _delegate = delegate;
+        
+        CGFloat titleHeight = title ? 30.0f : 15.0f;
+        
+        CGFloat bodyHeight = 0.0f;
+        // 文本信息
+        if (message)
+        {
+            CGSize BodySize = CGSizeMake(SYSCONTENTWIDTH, MAXFLOAT);
+            bodyHeight = [HZAlertView sizeWithText:message font:CONTENTFONT maxSize:BodySize].height + 20;
+        }
+        
+        BOOL isNeedUserTextView = bodyHeight > 170;
+        
+        bodyHeight = isNeedUserTextView?170:bodyHeight;
+        
+        // alertView高度 = 标题高度+文本高度  +   自定义view高度 + 按钮高度
+        CGFloat finalHeight = titleHeight+bodyHeight +buttonPartHeight;
 
-/**
- *  添加按钮布局
- *
- *  @param startLeft <#startLeft description#>
- *  @param btnWidth  <#btnWidth description#>
- *  @param btnHeigth <#btnHeigth description#>
- */
--(void)setButtonPartView:(CGFloat)startLeft
-                     Top:(CGFloat)btnTop
-                       W:(CGFloat)btnWidth
-                       H:(CGFloat)btnHeight
-                paddingH:(CGFloat)btnDistance
-           singleBtnLeft:(CGFloat)singleleft
-              singleBtnW:(CGFloat)singleWidth
-       cancelButtonTitle:(NSString *)cancelButtonTitle
-       otherButtonTitles:(NSString *)otherButtonTitle {
-    
-    if (cancelButtonTitle && otherButtonTitle) {
+        self.contentView.backgroundColor = YSColor(255, 255, 255);
+        self.contentView.center = CGPointMake(self.centerX, self.centerY);
+        self.contentView.layer.cornerRadius = 5;
+        self.contentView.layer.masksToBounds = YES;
+        self.contentView.bounds = CGRectMake(0, 0, SYSALERTWIDTH, finalHeight);
         
-        [self.cancelButton setBackgroundImage:leftBtnImage forState:UIControlStateNormal];
-        [self.cancelButton setTitleColor:[UIColor darkGrayColor]  forState:UIControlStateNormal];
-        [self.cancelButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.cancelButton setTitle:cancelButtonTitle forState:UIControlStateNormal];
-        [self.cancelButton setFrame:CGRectMake(startLeft, btnTop, btnWidth, btnHeight)];
-        [self.cancelButton setTag:0];
+        UIView *alertMainView = [[UIView alloc] init];
+        alertMainView.frame = CGRectMake(0, 0, SYSALERTWIDTH, finalHeight);
+        alertMainView.backgroundColor = [UIColor whiteColor];
+        [self.contentView addSubview:alertMainView];
         
-        [self.otherButton setBackgroundImage:rightBtnImage forState:UIControlStateNormal];
-        [self.otherButton setTitleColor:YSColor(255, 255, 255) forState:UIControlStateNormal];
         
-        [self.otherButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.otherButton setTitle:otherButtonTitle forState:UIControlStateNormal];
-        [self.otherButton setFrame:CGRectMake(self.cancelButton.right+10, btnTop, btnWidth, btnHeight)];
-        [self.otherButton setTag:1];
+        // 标题背景图片
+        UIImageView *titleBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SYSALERTWIDTH, titleHeight)];
+        [alertMainView addSubview:titleBgImageView];
         
-        [self.contentView addSubview:self.cancelButton];
-        [self.contentView addSubview:self.otherButton];
-    }else if (cancelButtonTitle){
+        //titleLabel
+        CGSize titleMaxSize = CGSizeMake(MAXFLOAT, titleHeight);
+        CGSize titleSize = [HZAlertView sizeWithText:title font:TITLEFONT maxSize:titleMaxSize];
+        CGFloat titleWidth = titleSize.width<240?titleSize.width:240;
+        self.titleLabel.text = title;
+        self.titleLabel.font = TITLEFONT;
+        self.titleLabel.textColor = [UIColor blackColor];
+        self.titleLabel.adjustsFontSizeToFitWidth = YES;
+        self.titleLabel.center = CGPointMake(titleBgImageView.centerX, titleBgImageView.centerY + 3);
+        self.titleLabel.bounds = CGRectMake(0, 0, titleWidth, titleHeight);
+        [alertMainView addSubview:self.titleLabel];
         
-        UIImage *image2 = rightBtnImage;
-        [self.cancelButton setBackgroundImage:image2 forState:UIControlStateNormal];
-        [self.cancelButton setTitleColor:YSColor(255, 255, 255) forState:UIControlStateNormal];
-        [self.cancelButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.cancelButton setTitle:cancelButtonTitle forState:UIControlStateNormal];
-        [self.cancelButton setFrame:CGRectMake(60, btnTop - 9, singleWidth, btnHeight)];
-        [self.cancelButton setTag:0];
-        [self.contentView addSubview:self.cancelButton];
         
-    }else if (otherButtonTitle){
+        CGRect contentFrame = CGRectMake((SYSALERTWIDTH - SYSCONTENTWIDTH)  * 0.5, titleHeight, SYSCONTENTWIDTH, bodyHeight);
+        //bodyLabel
+        if (isNeedUserTextView) {
+            self.bodyTextView.text = message;
+            self.bodyTextView.frame = contentFrame;
+            self.bodyTextView.font = [UIFont systemFontOfSize:16.0f];
+            [alertMainView addSubview:self.bodyTextView];
+        }else{
+            self.bodyTextLabel.text = message;
+            self.bodyTextLabel.frame = contentFrame;
+            self.bodyTextLabel.font = [UIFont systemFontOfSize:16.0f];
+            [alertMainView addSubview:self.bodyTextLabel];
+        }
+        // 添加横线
+        CGFloat lineX = 0;
+        CGFloat lineY = CGRectGetMaxY(contentFrame);
+        CGFloat lineHeight = finalHeight - lineY;
+        [self dracetLine:CGRectMake(lineX, lineY, SYSALERTWIDTH, 1)];
         
-        UIImage *image2 = rightBtnImage;
-        [self.otherButton setBackgroundImage:image2 forState:UIControlStateNormal];
-        [self.otherButton setTitleColor:YSColor(255, 255, 255) forState:UIControlStateNormal];
-        [self.otherButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.otherButton setTitle:otherButtonTitle forState:UIControlStateNormal];
-        [self.otherButton setFrame:CGRectMake(60, btnTop - 9, singleWidth, btnHeight)];
-        [self.otherButton setTag:0];
-        [self.contentView addSubview:self.otherButton];
+        //buttons
+        CGFloat partButtonHeight = finalHeight - lineHeight * 0.5;
+        if (cancelButtonTitle && otherButtonTitle) {
+            
+            [self dracetLine:CGRectMake(alertMainView.centerX, lineY, 1, finalHeight - lineY)];
+            [self.cancelButton.titleLabel setFont:SYSBUTTONFONT];
+            [self.cancelButton setTitle:cancelButtonTitle forState:UIControlStateNormal];
+            [self.cancelButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            [self.cancelButton setTitleColor:YSColor(22, 126, 251) forState:UIControlStateNormal];
+            self.cancelButton.center = CGPointMake(self.contentView.width / 4,partButtonHeight);
+            self.cancelButton.bounds = CGRectMake(0, 0, self.contentView.width * 0.5, lineHeight);
+            [self.cancelButton setTag:0];
+            
+            [self.otherButton setTitleColor:YSColor(22, 126, 251) forState:UIControlStateNormal];
+            [self.otherButton setTitle:otherButtonTitle forState:UIControlStateNormal];
+            [self.otherButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            self.otherButton.center = CGPointMake(self.contentView.width * 3 / 4,partButtonHeight);
+            self.otherButton.bounds = CGRectMake(0, 0, self.contentView.width * 0.5, lineHeight);
+            [self.otherButton.titleLabel setFont:SYSBUTTONFONT];
+            [self.otherButton setTag:1];
+            [alertMainView addSubview:self.cancelButton];
+            [alertMainView addSubview:self.otherButton];
+        }else if (cancelButtonTitle){
+
+            [self.cancelButton setTitle:cancelButtonTitle?cancelButtonTitle:otherButtonTitle forState:UIControlStateNormal];
+            [self.cancelButton setTitleColor:YSColor(22, 126, 251) forState:UIControlStateNormal];
+            [self.cancelButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            [self.cancelButton.titleLabel setFont:SYSBUTTONFONT];
+            self.cancelButton.center  = CGPointMake(self.contentView.width * 0.5, partButtonHeight);
+            self.cancelButton.bounds = CGRectMake(0, 0, self.contentView.width, lineHeight);
+            [self.cancelButton setTag:0];
+            [alertMainView addSubview:self.cancelButton];
+        }else if (otherButtonTitle){
+
+            [self.otherButton setTitle:cancelButtonTitle?cancelButtonTitle:otherButtonTitle forState:UIControlStateNormal];
+            [self.otherButton setTitleColor:YSColor(22, 126, 251) forState:UIControlStateNormal];
+            [self.otherButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            [self.otherButton.titleLabel setFont:SYSBUTTONFONT];
+            self.otherButton.center  = CGPointMake(self.contentView.width * 0.5, partButtonHeight);
+            self.otherButton.bounds = CGRectMake(0, 0, self.contentView.width, lineHeight);
+            [self.otherButton setTag:0];
+            [alertMainView addSubview:self.otherButton];
+        }
     }
+
+    return self;
 }
 
 - (void)dealloc {
     _delegate = nil;
-    
-    //    TT_RELEASE_SAFELY(_titleLabel);
-    //    TT_RELEASE_SAFELY(_bodyTextLabel);
-    //    TT_RELEASE_SAFELY(_bodyTextView);
-    //    TT_RELEASE_SAFELY(_customView);
-    //    TT_RELEASE_SAFELY(_backgroundView);
-    //    TT_RELEASE_SAFELY(_contentView);
-    //    TT_RELEASE_SAFELY(_cancelButton);
-    //    TT_RELEASE_SAFELY(_otherButton);
     _cancelBlock = nil;
     _confirmBlock = nil;
     [self removeObserver:self forKeyPath:@"dimBackground"];
@@ -848,9 +878,39 @@ static UIWindow * gMaskWindow = nil;
     }
 }
 
-
+/**
+ *  计算字体size
+ *
+ *  @param text    <#text description#>
+ *  @param font    <#font description#>
+ *  @param maxSize <#maxSize description#>
+ *
+ *  @return <#return value description#>
+ */
 + (CGSize)sizeWithText:(NSString *)text font:(UIFont *)font maxSize:(CGSize)maxSize {
     NSDictionary * attrs = @{NSFontAttributeName : font};
     return [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+//    UIView * hitView=[self hitTest:[[touches anyObject] locationInView:self] withEvent:nil];
+//    if (hitView == self.contentView) {
+//        NSLog(@"touches moved in the view");
+//    }else{
+//        NSLog(@"==");
+//        [self dismiss];
+//    }
+}
+
+/**
+ *  画线FUNC
+ *
+ *  @param rect <#rect description#>
+ */
+-(void)dracetLine:(CGRect)rect {
+    UIView * lineView = [[UIView alloc] initWithFrame:rect];
+    lineView.backgroundColor = YSColor(218, 218, 222);
+    [self.contentView addSubview:lineView];
 }
 @end

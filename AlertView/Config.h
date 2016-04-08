@@ -9,11 +9,25 @@
 #ifndef Config_h
 #define Config_h
 
+// ***********模拟系统界面
+// 系统界面宽度
+#define SYSALERTWIDTH 270
+// 距离左右间距
+#define SYSALERTPADDING 15
+// 系统内容宽度 =  alet宽度 - （左边距 + 右边距）
+#define SYSCONTENTWIDTH (SYSALERTWIDTH - (SYSALERTPADDING * 2))
+#define SYSBUTTONFONT [UIFont systemFontOfSize:20.0f]
 
-// 弹出框宽度
-#define ALERTWIDTH 260
 
 
+
+// 系统底部按钮高度
+#define buttonPartHeight 44
+
+// 基本弹出框宽度
+#define BASICALERTWIDTH 260
+// 基本弹出框内容宽度
+#define BASICCONTENTWIDTH 220
 
 #define TITLEFONT [UIFont systemFontOfSize:20.0f]
 #define CONTENTFONT [UIFont systemFontOfSize:16.0f]
