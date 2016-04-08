@@ -636,6 +636,9 @@ static UIWindow * gMaskWindow = nil;
     return self;
 }
 
+
+
+
 -(id)initWithSystemTitle:(NSString *)title
                         message:(NSString *)message
                          delegate:(id<HZAlertViewDelegate>)delegate

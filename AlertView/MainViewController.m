@@ -15,6 +15,19 @@
 
 @implementation MainViewController
 
+/********************************************************
+ HZAlertView封装自系统的alertview，可能在尺寸上和
+ 系统控件有差别，在系统的原有的基础上增加了出现时的
+ 收缩动画。
+ 建议使用
+ HZAlertView * customAlert = [[HZAlertView alloc] initWithSystemTitle:@"提示" message:@"dd" delegate:self cancelButtonTitle:@"我知道了" otherButtonTitles:@"确定"];
+ [customAlert show];
+ 
+ 
+ 其他函数是否比较丑陋，是模仿苏宁很早之前版本的alertview的UI
+ ********************************************************/
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"自定义alert";
@@ -49,7 +62,7 @@
     
     
     UIButton * sysButton  = [UIButton buttonWithType:UIButtonTypeCustom];
-    sysButton.frame = CGRectMake(100, 310, 100, 40);
+    sysButton.frame = CGRectMake(100, 320, 100, 40);
     [sysButton setBackgroundImage:[UIImage imageNamed:@"button_orange_normal"] forState:UIControlStateNormal];
     [sysButton setTitle:@"系统" forState:UIControlStateNormal];
     [sysButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
