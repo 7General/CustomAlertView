@@ -805,7 +805,9 @@ static UIWindow * gMaskWindow = nil;
 
 
 
-
+/**
+ *  画背景渐变效果
+ */
 -(void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -829,9 +831,9 @@ static UIWindow * gMaskWindow = nil;
                                  kCGGradientDrawsAfterEndLocation);
     CGGradientRelease(gradient);
 }
+
 #pragma mark -
 #pragma mark animation
-
 - (void)bounce0Animation{
     self.contentView.transform = CGAffineTransformScale([self transformForOrientation], 0.001f, 0.001f);
     [UIView beginAnimations:nil context:nil];
@@ -842,7 +844,6 @@ static UIWindow * gMaskWindow = nil;
     [UIView commitAnimations];
 }
 
-
 - (void)bounce1AnimationDidStop{
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:kTransitionDuration/2];
@@ -851,6 +852,7 @@ static UIWindow * gMaskWindow = nil;
     self.contentView.transform = CGAffineTransformScale([self transformForOrientation], 0.9f, 0.9f);
     [UIView commitAnimations];
 }
+
 - (void)bounce2AnimationDidStop{
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:kTransitionDuration/2];
@@ -893,14 +895,13 @@ static UIWindow * gMaskWindow = nil;
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    
-//    UIView * hitView=[self hitTest:[[touches anyObject] locationInView:self] withEvent:nil];
-//    if (hitView == self.contentView) {
+    UIView * hitView=[self hitTest:[[touches anyObject] locationInView:self] withEvent:nil];
+    if (hitView == self) {
 //        NSLog(@"touches moved in the view");
-//    }else{
-//        NSLog(@"==");
-//        [self dismiss];
-//    }
+        [self dismiss];
+    }else{
+//        NSLog(@"touches moved in the subview");
+    }
 }
 
 /**
