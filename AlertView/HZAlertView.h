@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Config.h"
+
 #if NS_BLOCKS_AVAILABLE
 typedef void(^HZBasicActionBlock)();
 #endif

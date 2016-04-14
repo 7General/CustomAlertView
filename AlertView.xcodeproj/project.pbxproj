@@ -18,6 +18,7 @@
 		257488311CA9202E00F54486 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2574882F1CA9202E00F54486 /* LaunchScreen.storyboard */; };
 		2574883C1CA9202E00F54486 /* AlertViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2574883B1CA9202E00F54486 /* AlertViewTests.m */; };
 		257488471CA9202E00F54486 /* AlertViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 257488461CA9202E00F54486 /* AlertViewUITests.m */; };
+		257E3FB21CBB77C00047B4BF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 257E3FB11CBB77C00047B4BF /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		257488421CA9202E00F54486 /* AlertViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlertViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		257488461CA9202E00F54486 /* AlertViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlertViewUITests.m; sourceTree = "<group>"; };
 		257488481CA9202E00F54486 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		257E3FB11CBB77C00047B4BF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				25712FFB1CB62BDA006887F4 /* HZAlertView.h */,
 				25712FFC1CB62BDA006887F4 /* HZAlertView.m */,
 				252C8CDF1CB682E600A3E9BE /* Config.h */,
+				257E3FB11CBB77C00047B4BF /* Localizable.strings */,
 			);
 			name = Custom;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				257488311CA9202E00F54486 /* LaunchScreen.storyboard in Resources */,
+				257E3FB21CBB77C00047B4BF /* Localizable.strings in Resources */,
 				2574882E1CA9202E00F54486 /* Assets.xcassets in Resources */,
 				2574882C1CA9202E00F54486 /* Main.storyboard in Resources */,
 			);

@@ -38,4 +38,12 @@
 #define leftBtnImage        [UIImage imageNamed:@"button_white_normal.png"]
 #define rightBtnImage       [UIImage imageNamed:@"button_orange_normal.png"]
 
+
+
+#undef L
+#define L(key) \
+[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:nil]
+
+
+
 #endif /* Config_h */
