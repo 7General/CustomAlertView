@@ -11,8 +11,7 @@
   <img align="right" src="https://mmbiz.qlogo.cn/mmbiz/wFa30ADx7kLq0OYsfiacaDw1bZicnlnjticTeKwpVfeibl77iaonMTIACtb38kiclJq3u3xYLVZhw9r5luqGgkDKzkWA/0?wx_fmt=jpeg" alt="项目结构" width="240" height="427"/>
 
 
-更多消息
-* 更多App信息可以关注：[洲洲哥](https://mmbiz.qlogo.cn/mmbiz/wFa30ADx7kLiboiaPKbKSTypo5VSAOShxYUf5zZ4JgQqadyy8J6GzHFvfAYicu5F8Ew0ngVibRM8qcaSxtjyX3blPA/0?wx_fmt=jpeg)
+
 
 ## <a id="如何使用HZAlertView"></a>如何使用HZAlertView
 
@@ -33,6 +32,8 @@ NSString * texts = @"国际在线专稿为了赢得比赛和价值2000美元（�
 
 ### Block 处理点击事件
 
+这里使用 Block 处理点击事件，如果使用了Block处理点击事件，我们这里就不用设置代理
+
 取消事件（cancelButton）
 ```objc
 [customAlert setCancelBlock:^{
@@ -46,6 +47,12 @@ NSString * texts = @"国际在线专稿为了赢得比赛和价值2000美元（�
     }];
 ```
 ### Delegate 代理处理点击事件
+在使用该方法之前，请确认添加代理  - HZAlertViewDelegate
+
+这里区分了两个状态，
+ 1： didDismissWithButtonIndex    已经点击  首先执行  在 willDismissWithButtonIndex 之前执行
+ 2： willDismissWithButtonIndex   将要点击在 didDismissWithButtonIndex 之后执行
+ 这里和系统的UIAlertView的代理用法一样。
 
 ```objc
 -(void)alertView:(HZAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -65,3 +72,10 @@ NSString * texts = @"国际在线专稿为了赢得比赛和价值2000美元（�
     }
 }
 ```
+
+
+
+## 更多消息
+ 更多信iOS开发信息 请以关注洲洲哥 的微信公众号，不定期有干货推送：
+ 
+ ![(logo)](https://mmbiz.qlogo.cn/mmbiz/wFa30ADx7kLiboiaPKbKSTypo5VSAOShxYUf5zZ4JgQqadyy8J6GzHFvfAYicu5F8Ew0ngVibRM8qcaSxtjyX3blPA/0?wx_fmt=jpeg)
