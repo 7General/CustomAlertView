@@ -84,12 +84,12 @@
     NSString * texts = @"国际在线专稿为了赢得比赛和价值2000美元（约合人民币12950元）的奖品，竟睡在临时搭在悉尼市最热闹的皮特街（Pitt Street）上空20米的临时帐篷中，令路人大跌眼镜。（杨柳）国际在线专稿：据英国《每日邮报》4月5日报道，新西兰一家户外装备品牌日前在澳大利亚举行名为“最狂野粉丝”的竞赛，25岁澳大利亚女子萨姆·米洛杰维奇（Sam Milojevic）为了赢得比赛和价值2000美元";
     
     HZAlertView * customAlert = [[HZAlertView alloc] initWithSystemTitle:L(@"ActionTitle") message:texts delegate:self cancelButtonTitle:L(@"Cancle") otherButtonTitles:L(@"Sure")];
+    
+    [customAlert show];
+    
     [customAlert setCancelBlock:^{
         NSLog(@"dddddd");
     }];
-    [customAlert show];
-    
-    
 }
 
 
